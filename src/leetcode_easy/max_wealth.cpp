@@ -9,7 +9,7 @@ public:
         for (int i = 0; i < accounts.size(); i++) {
             int w = 0;
             for (int j = 0; j < accounts.size(); j++) {
-                w += accounts[j];
+                w += accounts[i][j];
                 if (w > m) {
                     m = w;
                 }
