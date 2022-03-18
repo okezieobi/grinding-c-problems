@@ -56,7 +56,7 @@ public:
         if (word1.length() == word2.length())
             return result;
         int max_str = max(word1.length(), word2.length());
-        int remainder_str = max_str - min_str + result.length() + 1;
+        int remainder_str = max_str - min_str + result.length() - 1;
         for (int i = result.length() - 1; i < remainder_str; i++) {
             if (word1.length() > word2.length()) {
                 result.push_back(word1[even_index]);
