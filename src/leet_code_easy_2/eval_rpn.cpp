@@ -1,51 +1,62 @@
+/*
+Evaluate the value of an arithmetic expression in Reverse Polish Notation.
+Valid operators are +, -, *, and /. Each operand may be an integer or another expression.
+Note that division between two integers should truncate toward zero.
+It is guaranteed that the given RPN expression is always valid.
+That means the expression would always evaluate to a result,
+and there will not be any division by zero operation.
+ 
+
+Example 1:
+Input: tokens = ["2","1","+","3","*"]
+Output: 9
+Explanation: ((2 + 1) * 3) = 9
+
+Example 2:
+Input: tokens = ["4","13","5","/","+"]
+Output: 6
+Explanation: (4 + (13 / 5)) = 6
+
+Example 3:
+Input: tokens = ["10","6","9","3","+","-11","*","/","*","17","+","5","+"]
+Output: 22
+Explanation: ((10 * (6 / ((9 + 3) * -11))) + 17) + 5
+= ((10 * (6 / (12 * -11))) + 17) + 5
+= ((10 * (6 / -132)) + 17) + 5
+= ((10 * 0) + 17) + 5
+= (0 + 17) + 5
+= 17 + 5
+= 22
+
+Constraints:
+1 <= tokens.length <= 104
+tokens[i] is either an operator: "+", "-", "*", or "/", or an integer in the range [-200, 200].
+*/
+
 #include <bits/stdc++.h>
 
 using namespace std;
 
 class Solution {
-public:
-    int evalRPN(vector<string>& tokens) {
-        stack<string> stack;
-        int a, b;
-        string result = "";
-        int get = 0;
-        string choice;
-        int value = 0;
-        string p = "";
-        for (auto token : tokens) {
-            if (token != "+" && token != "-" && token != "*" && token != "/") {
-                stack.push(token);
-                continue;
-            } else {
-                choice = token;
-            }
-            if (choice == "+") {
-                a = stoi(stack.pop());
-                b = stoi(stack.pop());
-                value = a + b;
-                result = p + value;
-                stack.push(result);
-            } else if (choice == "_") {
-               a = stoi(stack.pop());
-                b = stoi(stack.pop());
-                value = a - b;
-                result = p + value;
-                stack.push(result); 
-            } else if (choice == "*") {
-                a = stoi(stack.pop());
-                b = stoi(stack.pop());
-                value = a * b;
-                result = p + value;
-                stack.push(result);
-            } else if (choice == "/") {
-                 a = stoi(stack.pop());
-                b = stoi(stack.pop());
-                value = a / b;
-                result = p + value;
-                stack.push(result);
-            }
-        }
-        return stoi(stack.pop());
-        
-    }
+    public:
+     int evalRPN(vector<string>& tokens) {
+         int top = 0;
+         for (auto& token : tokens) {
+             if (token == "+" || token == "-" || token == "*" || token == "/") {
+                 int op1 = stoi(tokens[--top]);
+                 int op2 = stoi(tokens[--top]);
+                 if (token == "+")
+                     op1 += op2;
+                 else if (token == "-")
+                    op1 = op2 - op1;
+                else if (token == "*")
+                    op1 *= op2;
+                else if (token == "/")
+                    op1 = op2 / op1;
+                tokens[top++] = to_string(op1);
+             } else
+                 tokens[top++] = token;
+         }
+         return stoi(tokens[0]);
+     }
 };
